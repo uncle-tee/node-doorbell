@@ -9,6 +9,10 @@
     "json",
     "ts"
   ],
+  "collectCoverageFrom": [
+    "<rootDir>/src/impl/http.service.{js,jsx,ts,tsx}"
+  ],
+  "coverageDirectory": "./coverage",
   "testMatch": [
     "<rootDir>/__tests__/*.(test).{js,jsx,ts,tsx}"
   ]
