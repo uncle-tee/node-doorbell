@@ -1,4 +1,4 @@
-export class InternalServierException extends Error {
+export class InternalServerException extends Error {
   data: any;
   status: number;
 

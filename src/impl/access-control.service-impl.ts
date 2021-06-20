@@ -11,7 +11,7 @@ import {
   ServiceUnavailableException,
 } from "../exceptions";
 import { AuthService } from "../service";
-import { InternalServierException } from "../exceptions/internal-servier.exception";
+import { InternalServerException } from "../exceptions";
 
 export class AccessControlServiceImpl implements AuthService {
   private httpClient?: Httpclient;
@@ -45,7 +45,7 @@ export class AccessControlServiceImpl implements AuthService {
         return new AccessRequestPayload(data.accessToken, data.accessSecret);
       }
       //Throw and error because is only means that there is a problem with acesss impl
-      throw new InternalServierException(
+      throw new InternalServerException(
         500,
         "There was an internal error and we will resolve soon"
       );
@@ -60,7 +60,7 @@ export class AccessControlServiceImpl implements AuthService {
       }
       if (error instanceof ClientErrorException) {
         //Please stream error to the server immediately there is a communication issue.
-        throw new InternalServierException(
+        throw new InternalServerException(
           500,
           "Service is currently unavailable and will be available shortly"
         );

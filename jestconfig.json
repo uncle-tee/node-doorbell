@@ -10,7 +10,7 @@
     "ts"
   ],
   "collectCoverageFrom": [
-    "<rootDir>/src/impl/http.service.{js,jsx,ts,tsx}"
+    "<rootDir>/src/**/*.{js,jsx,ts,tsx}"
   ],
   "coverageDirectory": "./coverage",
   "testMatch": [

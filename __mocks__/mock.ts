@@ -1,5 +1,6 @@
 import faker from "faker";
-import axios from "axios";
+import { AuthCredentials } from "../src/data";
+import { ClientErrorException } from "../src";
 
 export const mockAxiosInstance = {
   interceptors: {
@@ -16,7 +17,36 @@ export const mockAxiosInstance = {
   }),
 };
 
-export const mockAxiosInstanceError = {
+export const mockAxiosEmptyDataResponseInstance = {
+  interceptors: {
+    request: {
+      use: jest.fn(),
+    },
+    response: {
+      use: jest.fn(),
+    },
+  },
+  post: jest.fn().mockResolvedValue(null),
+};
+
+export const mockAxios4XXErrorResponseInstance = {
+  interceptors: {
+    request: {
+      use: jest.fn(),
+    },
+    response: {
+      use: jest.fn(),
+    },
+  },
+  post: jest.fn().mockImplementation(() => {
+    throw new ClientErrorException(
+      faker.datatype.number({ min: 400, max: 499 }),
+      ""
+    );
+  }),
+};
+
+export const mockAxiosServiceNotAvailableErrorInstance = {
   interceptors: {
     request: {
       use: jest.fn(),
@@ -27,7 +57,7 @@ export const mockAxiosInstanceError = {
         .mockImplementation((onResponseCallBack, onErrorCallBack) => {
           const data = {
             response: {
-              status: faker.datatype.number({ min: 400, max: 499 }),
+              status: 503,
             },
           };
           onErrorCallBack(data);
@@ -38,4 +68,11 @@ export const mockAxiosInstanceError = {
     accessToken: faker.random.alphaNumeric(20),
     accessSecret: faker.random.alphaNumeric(20),
   }),
+};
+
+export const mockAuthCredentials: AuthCredentials = {
+  baseUrl: faker.internet.url(),
+  nonce: faker.random.alphaNumeric(10),
+  password: faker.random.alphaNumeric(7),
+  userName: faker.name.middleName(),
 };

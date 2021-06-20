@@ -10,7 +10,6 @@ jest.mock("axios", () => ({
   }),
 }));
 
-
 describe("Http Service", () => {
   beforeEach(() => {
     mockAxiosInstance.interceptors.request.use.mockReset();
@@ -57,7 +56,7 @@ describe("Http Service", () => {
     expect(t).toThrow(ClientErrorException);
   });
 
-  it.only("Test that service exception is thrown when error is greater than 499", () => {
+  it("Test that service exception is thrown when error is greater than 499", () => {
     const apiKey = faker.random.alphaNumeric(10);
     new Httpclient({ apiKey: apiKey, basePath: "" });
     const responseErrorHnadler =
@@ -70,5 +69,19 @@ describe("Http Service", () => {
       });
     };
     expect(t).toThrow(ServiceUnavailableException);
+  });
+
+  it("Test that data is removed from the response", () => {
+    const apiKey = faker.random.alphaNumeric(10);
+    new Httpclient({ apiKey: apiKey, basePath: "" });
+    const responseInterceptor =
+      mockAxiosInstance.interceptors.response.use.mock.calls[0][0];
+    const mockResponse = {
+      data: {
+        firstName: faker.random.alphaNumeric(),
+      },
+    };
+    const response = responseInterceptor(mockResponse);
+    expect(response.firstName).toBeDefined();
   });
 });
