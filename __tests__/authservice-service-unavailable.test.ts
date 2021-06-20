@@ -1,16 +1,16 @@
 import {
   mockAuthCredentials,
-  mockAxiosServiceNotAvailableErrorInstance,
+  mockAxiosServiceNotAvailableErrorInstance
 } from "../__mocks__/mock";
 import { AccessControl, ServiceUnavailableException } from "../src";
 
 jest.mock("axios", () => ({
   create: jest.fn(() => {
     return mockAxiosServiceNotAvailableErrorInstance;
-  }),
+  })
 }));
 
-describe("Auth-control-service-impl", () => {
+describe("Auth-service-service-unavailable", () => {
   afterEach(() => {
     jest.resetAllMocks();
   });

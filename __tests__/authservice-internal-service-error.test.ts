@@ -10,12 +10,12 @@ jest.mock("axios", () => ({
   })
 }));
 
-describe.only("Auth-control-service-impl", () => {
+describe("Auth-service-internal-service", () => {
   afterEach(() => {
     jest.resetAllMocks();
   });
 
-  it.only("Test that internal service exception is thrown for 4XX error is thrown", async () => {
+  it("Test that internal service exception is thrown for 4XX error is thrown", async () => {
     const accessControl = AccessControl(mockAuthCredentials);
     let thrownError = null;
     try {
@@ -25,4 +25,6 @@ describe.only("Auth-control-service-impl", () => {
     }
     expect(thrownError instanceof InternalServerException).toEqual(true);
   });
+
+
 });

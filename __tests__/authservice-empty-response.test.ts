@@ -11,7 +11,7 @@ jest.mock("axios", () => ({
   })
 }));
 
-describe("Auth-control-service-impl", () => {
+describe("Auth-service-empty-response", () => {
   afterEach(() => {
     jest.resetAllMocks();
   });

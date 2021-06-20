@@ -1,8 +1,8 @@
-import * as faker from "faker";
-import {
-  mockAuthCredentials,
-  mockAxiosInstance
-} from "../__mocks__/mock";
+import { mockAuthCredentials, mockAxiosInstance } from "../__mocks__/mock";
+import faker from "faker";
+
+import { HttpMethod } from "../src/data";
+
 import { AccessControl } from "../src";
 
 jest.mock("axios", () => ({
@@ -11,9 +11,12 @@ jest.mock("axios", () => ({
   })
 }));
 
+
 describe("Auth-control-service-impl", () => {
   afterEach(() => {
-    jest.resetAllMocks();
+    mockAxiosInstance.interceptors.response.use.mockClear() ;
+    mockAxiosInstance.interceptors.request.use.mockClear();
+    mockAxiosInstance.post.mockClear();
   });
 
   it("Test  response with right payload", async () => {
@@ -22,5 +25,16 @@ describe("Auth-control-service-impl", () => {
     expect(accessRequestPayload.accessToken).toBeDefined();
     expect(accessRequestPayload.accessSecret).toBeDefined();
     return accessRequestPayload;
+  });
+
+  it("Test that a token can be generated", async () => {
+    const authService = AccessControl(mockAuthCredentials);
+    const computerSignatureResponse = await authService.computeSignature(
+      HttpMethod.GET,
+      faker.internet.url()
+    );
+    expect(computerSignatureResponse.accessToken).toBeDefined();
+    expect(computerSignatureResponse.signature).toBeDefined();
+    expect(computerSignatureResponse.timestamp).toBeDefined();
   });
 });
